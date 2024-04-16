@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>ACMS</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -28,12 +28,7 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row">
-            @yield('sidebar')
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                @yield('content')
-            </main>
-        </div>
+        @yield('content')
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
