@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\PlantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('update', [AuthenticationController::class, 'update']);
     });
 });
+Route::get('plants', [PlantController::class, 'apiIndex']);
