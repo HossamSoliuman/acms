@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\PlantController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,4 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 });
 Route::get('plants', [PlantController::class, 'apiIndex']);
+Route::get('products', [ProductController::class, 'apiIndex']);

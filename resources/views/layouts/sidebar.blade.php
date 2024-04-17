@@ -26,7 +26,12 @@
                 </a>
                 <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
                     href="{{ route('plants.index') }}">
-                    <i class="bi bi-shop"></i> Plants
+                    <i class="bi bi-plant"></i> Plants
+                </a>
+
+                <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
+                    href="{{ route('products.index') }}">
+                    <i class="bi bi-shop"></i> Products
                 </a>
 
                 <form action="{{ route('logout') }}" method="post">
