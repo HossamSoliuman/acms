@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>ACMS</title>
-    <link rel="icon" href="logo-white.png">
+    <link rel="icon" href="logo-white-trans.png">
 
 
 
