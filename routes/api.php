@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -25,6 +26,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [AuthenticationController::class, 'logout']);
         Route::post('update', [AuthenticationController::class, 'update']);
     });
+    Route::post('product-checkout', [CheckoutController::class, 'checkout']);
 });
 Route::get('plants', [PlantController::class, 'apiIndex']);
 Route::get('products', [ProductController::class, 'apiIndex']);
+
+Route::get('/checkout-cancel', function () {
+    return redirect(env('APP_URL'));
+})->name('checkout-cancel');
+
+Route::get('/checkout-success', [CheckoutController::class, 'checkoutSuccess'])->name('checkout-success');

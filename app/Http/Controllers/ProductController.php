@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = ProductResource::collection(Product::all());
+        $products = ProductResource::collection(Product::where('is_active', 1)->get());
         return view('products', compact('products'));
     }
 

@@ -18,4 +18,8 @@ class Product extends Model
         'is_active',
         'cover',
     ];
+
+	public function orderItems(){
+		return $this->hasMany(OrderItems::class);
+	}
 }
