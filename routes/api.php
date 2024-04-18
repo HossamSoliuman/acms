@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -26,7 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [AuthenticationController::class, 'logout']);
         Route::post('update', [AuthenticationController::class, 'update']);
     });
-    Route::post('product-checkout', [CheckoutController::class, 'checkout']);
+    Route::post('stripe-checkout', [CheckoutController::class, 'checkout']);
+    Route::get('paypal-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
 });
 Route::get('plants', [PlantController::class, 'apiIndex']);
 Route::get('products', [ProductController::class, 'apiIndex']);
@@ -36,3 +38,6 @@ Route::get('/checkout-cancel', function () {
 })->name('checkout-cancel');
 
 Route::get('/checkout-success', [CheckoutController::class, 'checkoutSuccess'])->name('checkout-success');
+
+Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
+Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
