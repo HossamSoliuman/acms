@@ -15,12 +15,11 @@ class OrderItemsResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id'=> $this->id,
-			'order' => OrderResource::make($this->whenLoaded('order')),
-			'product' => ProductResource::make($this->whenLoaded('product')),
-			'quantity' => $this->quantity,
-            'created_at' => $this->created_at,
-            'last_update' => $this->updated_at,
+            'id' => $this->id,
+            'order' => OrderResource::make($this->whenLoaded('order')),
+            'product' => ProductResource::make($this->whenLoaded('product')),
+            'quantity' => $this->quantity,
+
         ];
     }
 }

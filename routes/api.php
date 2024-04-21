@@ -5,6 +5,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('stripe-checkout', [CheckoutController::class, 'checkout']);
     Route::get('paypal-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
+    Route::get('users/orders', [UserController::class, 'orders']);
 });
 Route::get('plants', [PlantController::class, 'apiIndex']);
 Route::get('products', [ProductController::class, 'apiIndex']);

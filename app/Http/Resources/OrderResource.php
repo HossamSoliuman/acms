@@ -23,6 +23,7 @@ class OrderResource extends JsonResource
 			'session_id' => $this->session_id,
             'created_at' => $this->created_at,
             'last_update' => $this->updated_at,
+            'orderItems'=> OrderItemsResource::collection($this->whenLoaded('orderItems'))
         ];
     }
 }
