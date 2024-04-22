@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\EngController;
+use App\Http\Controllers\MettingController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ProductController;
@@ -22,15 +24,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthenticationController::class, 'login']);
 Route::post('register', [AuthenticationController::class, 'register']);
+
+Route::middleware(['auth:sanctum', 'eng'])->prefix('eng')->group(function () {
+    Route::get('mettings/{eng_id}', [EngController::class, 'getUpcomingMettings']);
+    Route::get('available-times/{eng_id}', [EngController::class, 'getAvailableTimes']);
+    Route::post('mettings', [EngController::class, 'setAvailableTime']);
+});
+Route::get('create-meeting', [MettingController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::get('user', [AuthenticationController::class, 'user']);
         Route::post('logout', [AuthenticationController::class, 'logout']);
         Route::post('update', [AuthenticationController::class, 'update']);
     });
+    Route::prefix('users')->group(function () {
+        Route::get('orders', [UserController::class, 'orders']);
+        Route::get('upcoming-mettings', [UserController::class, 'getUpcomingMettings']);
+        Route::put('mettings/{metting}', [UserController::class, 'setMetting']);
+    });
     Route::post('stripe-checkout', [CheckoutController::class, 'checkout']);
     Route::get('paypal-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
-    Route::get('users/orders', [UserController::class, 'orders']);
 });
 Route::get('plants', [PlantController::class, 'apiIndex']);
 Route::get('products', [ProductController::class, 'apiIndex']);
