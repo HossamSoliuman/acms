@@ -22,7 +22,7 @@ class SetAvailableTimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_at' => ['required', 'date'],
+            'start_at' => ['required', 'date', 'after:now'],
         ];
     }
 }

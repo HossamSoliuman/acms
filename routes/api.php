@@ -27,7 +27,7 @@ Route::post('register', [AuthenticationController::class, 'register']);
 
 Route::middleware(['auth:sanctum', 'eng'])->prefix('eng')->group(function () {
     Route::get('mettings/{eng_id}', [EngController::class, 'getUpcomingMettings']);
-    Route::get('available-times/{eng_id}', [EngController::class, 'getAvailableTimes']);
+    Route::get('available-times', [EngController::class, 'getAvailableTimes']);
     Route::post('mettings', [EngController::class, 'setAvailableTime']);
 });
 Route::get('create-meeting', [MettingController::class, 'store']);
