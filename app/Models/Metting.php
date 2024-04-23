@@ -30,4 +30,8 @@ class Metting extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function eng()
+    {
+        return $this->belongsTo(User::class, 'eng_id');
+    }
 }

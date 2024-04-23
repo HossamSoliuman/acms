@@ -29,9 +29,13 @@ class EngController extends Controller
         $mettings = Metting::where('eng_id', auth()->id())->where('start_at', '>', Carbon::now())->get();
         return $this->apiResponse(EngAvailableTimesResource::collection($mettings));
     }
-    public function getUpcomingMettings($eng_id)
+    public function getUpcomingMettings()
     {
-        $mettings = Metting::where('eng_id', $eng_id)->where('status', Metting::STATUS_USER_BOOK)->get();
+        $mettings = Metting::with('user')
+            ->where('eng_id', auth()->id())
+            ->where('status', Metting::STATUS_USER_BOOK)
+            ->where('start_at', '>', Carbon::now())
+            ->get();
         return $this->apiResponse(MettingResource::collection($mettings));
     }
 }
