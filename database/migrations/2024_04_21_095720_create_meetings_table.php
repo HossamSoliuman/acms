@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mettings', function (Blueprint $table) {
+        Schema::create('meetings', function (Blueprint $table) {
             $table->id();
             $table->dateTime('start_at');
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();

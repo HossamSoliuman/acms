@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Metting;
-use App\Http\Requests\StoreMettingRequest;
-use App\Http\Requests\UpdateMettingRequest;
-use App\Http\Resources\MettingResource;
+use App\Models\Meeting;
+use App\Http\Requests\UpdateMeetingRequest;
+use App\Http\Resources\MeetingResource;
 use Carbon\Carbon;
 use Hossam\Licht\Controllers\LichtBaseController;
 use Illuminate\Support\Facades\Request;
 use MacsiDigital\Zoom\Facades\Zoom;
 
-class MettingController extends LichtBaseController
+class MeetingController extends LichtBaseController
 {
 
     public function index()
     {
-        $mettings = Metting::all();
-        $mettings = MettingResource::collection($mettings);
-        return view('mettings', compact('mettings'));
+        $meetings = Meeting::all();
+        $meetings = MeetingResource::collection($meetings);
+        return view('meetings', compact('meetings'));
     }
 
     public function store(Request $request)
     {
-
-
         $user = Zoom::user()->first();
 
         $meetingData = [
@@ -51,20 +48,20 @@ class MettingController extends LichtBaseController
         return  $user->meetings()->save($meeting);
     }
 
-    public function show(Metting $metting)
+    public function show(Meeting $meeting)
     {
-        return $this->successResponse(MettingResource::make($metting));
+        return $this->successResponse(MeetingResource::make($meeting));
     }
 
-    public function update(UpdateMettingRequest $request, Metting $metting)
+    public function update(UpdateMeetingRequest $request, Meeting $meeting)
     {
-        $metting->update($request->validated());
-        return redirect()->route('mettings.index');
+        $meeting->update($request->validated());
+        return redirect()->route('meetings.index');
     }
 
-    public function destroy(Metting $metting)
+    public function destroy(Meeting $meeting)
     {
-        $metting->delete();
-        return redirect()->route('mettings.index');
+        $meeting->delete();
+        return redirect()->route('meetings.index');
     }
 }

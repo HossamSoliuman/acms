@@ -48,9 +48,9 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function mettings()
+    public function meetings()
     {
-        return $this->hasMany(Metting::class);
+        return $this->hasMany(Meeting::class);
     }
     public function engRates()
     {

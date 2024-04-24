@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 
 
-class Metting extends Model
+class Meeting extends Model
 {
     use HasFactory;
     const STATUS_ENG_INIT = 'eng_init';

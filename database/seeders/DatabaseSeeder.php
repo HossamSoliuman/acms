@@ -22,5 +22,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@acms.com',
             'role' => 'admin',
         ]);
+        User::factory()->create([
+            'name' => 'Eng',
+            'email' => 'eng@acms.com',
+            'role' => 'eng',
+        ]);
     }
 }

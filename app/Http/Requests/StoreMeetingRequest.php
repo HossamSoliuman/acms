@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateMettingRequest extends FormRequest
+class StoreMeetingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,12 @@ class UpdateMettingRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_at' => ['date_format:Y-m-d H:i:s', 'nullable'],
-            'user_id' => ['integer', 'exists:users,id', 'nullable'],
-            'eng_id' => ['integer', 'exists:users,id', 'nullable'],
-            'url' => ['string', 'max:255', 'nullable'],
-            'rating' => ['integer', 'nullable'],
-            'status' => ['string', 'max:255', 'nullable'],
+            'start_at' => ['date_format:Y-m-d H:i:s', 'required'],
+            'user_id' => ['integer', 'exists:users,id', 'required'],
+            'eng_id' => ['integer', 'exists:users,id', 'required'],
+            'url' => ['string', 'max:255', 'required'],
+            'rating' => ['integer', 'required'],
+            'status' => ['string', 'max:255', 'required'],
         ];
     }
 }

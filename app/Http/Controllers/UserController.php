@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserSetMettingRequest;
+use App\Http\Resources\EngAvailableTimesResource;
 use App\Http\Resources\EngResource;
-use App\Http\Resources\MettingResource;
+use App\Http\Resources\MeetingResource;
 use App\Http\Resources\UserResource;
-use App\Models\Metting;
+use App\Models\Meeting;
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Traits\ZoomMeetingTrait;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -20,18 +20,18 @@ class UserController extends Controller
         $user = User::with('orders', 'orders.orderItems', 'orders.orderItems.product')->orderByDesc('id')->whereId($userId)->first();
         return $this->apiResponse(UserResource::make($user));
     }
-    public function getUpcomingMettings($user_id)
+    public function getUpcomingMeetings($user_id)
     {
-        $mettings = Metting::where('user_id', $user_id)->where('status', Metting::STATUS_USER_BOOK)->get();
-        return $this->apiResponse(MettingResource::collection($mettings));
+        $meetings = Meeting::where('user_id', $user_id)->where('status', Meeting::STATUS_USER_BOOK)->get();
+        return $this->apiResponse(MeetingResource::collection($meetings));
     }
-    public function setMetting(Metting $metting)
+    public function setMeeting(Meeting $meeting)
     {
-        $metting->update([
+        $meeting->update([
             'user_id' => auth()->id(),
         ]);
         $data = null;
-        $data['start_time'] = $metting->start_at;
+        $data['start_time'] = $meeting->start_at;
         $response = $this->create($data);
         return $this->apiResponse($response);
     }
@@ -39,5 +39,13 @@ class UserController extends Controller
     {
         $engs = User::with('engRates')->where('role', 'eng')->get();
         return $this->apiResponse(EngResource::collection($engs));
+    }
+    public function engAvailableTimes($user)
+    {
+        $meetings = Meeting::where('eng_id', $user)
+            ->where('start_at', '>', Carbon::now())
+            ->where('status', Meeting::STATUS_ENG_INIT)
+            ->get();
+        return $this->apiResponse(EngAvailableTimesResource::collection($meetings));
     }
 }

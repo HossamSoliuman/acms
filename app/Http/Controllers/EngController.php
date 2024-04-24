@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SetAvailableTimeRequest;
 use App\Http\Resources\EngAvailableTimesResource;
-use App\Http\Resources\MettingResource;
-use App\Models\Metting;
+use App\Http\Resources\MeetingResource;
+use App\Models\Meeting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,26 +16,26 @@ class EngController extends Controller
     {
         $validatedData = $request->validated();
         $validatedData['eng_id'] = auth()->id();
-        $checkIftimeExist = Metting::where('eng_id', auth()->id())->where('start_at', $validatedData['start_at'])->first();
+        $checkIftimeExist = Meeting::where('eng_id', auth()->id())->where('start_at', $validatedData['start_at'])->first();
         if ($checkIftimeExist) {
             return $this->apiResponse(null, 'This time already set', 0);
         }
-        $metting = Metting::create($validatedData);
+        $meeting = Meeting::create($validatedData);
 
-        return $this->apiResponse(EngAvailableTimesResource::make($metting));
+        return $this->apiResponse(EngAvailableTimesResource::make($meeting));
     }
     public function getAvailableTimes()
     {
-        $mettings = Metting::where('eng_id', auth()->id())->where('start_at', '>', Carbon::now())->get();
-        return $this->apiResponse(EngAvailableTimesResource::collection($mettings));
+        $meetings = Meeting::where('eng_id', auth()->id())->where('start_at', '>', Carbon::now())->get();
+        return $this->apiResponse(EngAvailableTimesResource::collection($meetings));
     }
-    public function getUpcomingMettings()
+    public function getUpcomingMeetings()
     {
-        $mettings = Metting::with('user')
+        $meetings = Meeting::with('user')
             ->where('eng_id', auth()->id())
-            ->where('status', Metting::STATUS_USER_BOOK)
+            ->where('status', Meeting::STATUS_USER_BOOK)
             ->where('start_at', '>', Carbon::now())
             ->get();
-        return $this->apiResponse(MettingResource::collection($mettings));
+        return $this->apiResponse(MeetingResource::collection($meetings));
     }
 }
