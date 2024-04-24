@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Meeting;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->foreignId('eng_id')->constrained('users')->cascadeOnDelete();
             $table->string('url')->nullable();
             $table->integer('rating')->nullable();
-            $table->string('status')->nullable();
+            $table->string('status')->default(Meeting::STATUS_ENG_INIT);
             $table->timestamps();
         });
     }

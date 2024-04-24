@@ -30,7 +30,6 @@ Route::middleware(['auth:sanctum', 'eng'])->prefix('eng')->group(function () {
     Route::get('available-times', [EngController::class, 'getAvailableTimes']);
     Route::post('meetings', [EngController::class, 'setAvailableTime']);
 });
-Route::get('create-meeting', [MeetingController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::get('user', [AuthenticationController::class, 'user']);
@@ -43,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('meetings/{meeting}', [UserController::class, 'setMeeting']);
         Route::get('engs', [UserController::class, 'getEngs']);
         Route::get('engs/{user}/available-times', [UserController::class, 'engAvailableTimes']);
+        Route::get('create-meeting/{meeting}', [MeetingController::class, 'store']);
     });
     Route::post('stripe-checkout', [CheckoutController::class, 'checkout']);
     Route::get('paypal-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
