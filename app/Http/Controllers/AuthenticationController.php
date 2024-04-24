@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateAuthRequest;
 use App\Http\Resources\UserResource;
+use App\Models\EngRates;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +21,13 @@ class AuthenticationController extends Controller
         $validData['password'] = Hash::make($validData['password']);
         if (isset($validData['is_eng'])) {
             $validData['role'] = 'eng';
+            $user = User::create($validData);
+            EngRates::create([
+                'eng_id' => $user->id,
+            ]);
+        } else {
+            $user = User::create($validData);
         }
-        $user = User::create($validData);
         $token = $user->createToken('auth_token')->plainTextToken;
         $user = User::find($user->id);
         return $this->apiResponse(
@@ -63,7 +69,7 @@ class AuthenticationController extends Controller
 
     public function update(UpdateAuthRequest $request)
     {
-        $user=User::find($request->user()->id);
+        $user = User::find($request->user()->id);
 
         $validated = $request->validated();
 

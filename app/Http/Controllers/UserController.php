@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserSetMettingRequest;
+use App\Http\Resources\EngResource;
 use App\Http\Resources\MettingResource;
 use App\Http\Resources\UserResource;
 use App\Models\Metting;
@@ -33,5 +34,10 @@ class UserController extends Controller
         $data['start_time'] = $metting->start_at;
         $response = $this->create($data);
         return $this->apiResponse($response);
+    }
+    public function getEngs()
+    {
+        $engs = User::with('engRates')->where('role', 'eng')->get();
+        return $this->apiResponse(EngResource::collection($engs));
     }
 }
