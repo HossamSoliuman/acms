@@ -19,7 +19,8 @@ class AuthenticationController extends Controller
     {
         $validData = $request->validated();
         $validData['password'] = Hash::make($validData['password']);
-        if (isset($validData['is_eng'])) {
+        if (isset($validData['is_eng']) && $validData['is_eng']) {
+
             $validData['role'] = 'eng';
             $user = User::create($validData);
             EngRates::create([
