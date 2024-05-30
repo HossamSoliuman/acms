@@ -11,6 +11,6 @@ class EngRates extends Model
     protected $fillable = [
         'meeting_rate',
         'overall_rating',
-        'user_id',
+        'eng_id',
     ];
 }
