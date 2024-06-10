@@ -6,24 +6,23 @@ use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
-use Hossam\Licht\Controllers\LichtBaseController;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = ProductResource::collection(Product::where('is_active', 1)->get());
+        $products = ProductResource::collection(Product::all());
         return view('products', compact('products'));
     }
 
     public function store(StoreProductRequest $request)
     {
-
         $validData = $request->validated();
         $validData['cover'] = $this->uploadFile($validData['cover'], Product::PathToStoredImages);
         $product = Product::create($validData);
-        return redirect()->route('products.index');
+        return redirect()->back();
     }
+
 
     public function show(Product $product)
     {

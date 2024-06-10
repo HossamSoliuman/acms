@@ -24,9 +24,9 @@ class StorePlantRequest extends FormRequest
     public function rules()
     {
         return [
-			'name' => ['string', 'max:255', 'required'],
-			'description' => ['string', 'required'],
-			'cover' => ['file', 'image', 'mimes:jpeg,png,jpg,gif', 'required'],
+            'name' => ['string', 'max:255', 'required'],
+            'description' => ['string', 'required'],
+            'cover' => ['file', 'image', 'required'],
         ];
     }
 }

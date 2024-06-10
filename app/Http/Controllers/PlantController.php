@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Plant;
 use App\Http\Requests\StorePlantRequest;
-use App\Http\Requests\UpdateAuthRequest;
 use App\Http\Requests\UpdatePlantRequest;
 use App\Http\Resources\PlantResource;
-use Hossam\Licht\Controllers\LichtBaseController;
-use Illuminate\Http\Request as HttpRequest;
-use Illuminate\Support\Facades\Request;
 
 class PlantController extends Controller
 {

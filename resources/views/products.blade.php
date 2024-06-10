@@ -20,23 +20,33 @@
                                 </button>
                             </div>
                             <div class="modal-body">
+                                <!-- Display Validation Errors -->
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
                                 <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <input type="text" name="name" class="form-control" placeholder="Product name"
-                                            required>
+                                            value="{{ old('name') }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <textarea name="description" class="form-control" placeholder="Product description" required style="height: 150px;"></textarea>
+                                        <textarea name="description" class="form-control" placeholder="Product description" required style="height: 150px;">{{ old('description') }}</textarea>
                                     </div>
-
                                     <div class="form-group">
                                         <input type="file" name="cover" class="form-control"
                                             placeholder="Product cover" required>
                                     </div>
                                     <div class="form-group">
                                         <input type="number" name="price" class="form-control"
-                                            placeholder="Product price" required>
+                                            placeholder="Product price" value="{{ old('price') }}" required>
                                     </div>
                             </div>
                             <div class="modal-footer">
@@ -48,6 +58,7 @@
                     </div>
                 </div>
 
+                <!-- Existing Products Table -->
                 <table class="table">
                     <thead>
                         <tr>
@@ -65,8 +76,8 @@
                                 <td>{{ $product->description }}</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ $product->cover }}" alt="Product Image"
-                                            class="img-fluid product-img" style="max-width: 100px;">
+                                        <img src="{{ $product->cover }}" alt="Product Image" class="img-fluid product-img"
+                                            style="max-width: 100px;">
                                     </div>
                                 </td>
                                 <td>{{ $product->price }}</td>
@@ -83,7 +94,6 @@
                                             <button type="submit" class="ml-3 btn btn-dark">Delete</button>
                                         </form>
                                     </div>
-
                                 </td>
                             </tr>
                         @endforeach
@@ -92,6 +102,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Image Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -102,8 +114,10 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="editModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-        role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+        aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -117,7 +131,8 @@
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <input type="text" name="name" class="form-control" placeholder="Product name" required>
+                            <input type="text" name="name" class="form-control" placeholder="Product name"
+                                required>
                         </div>
                         <div class="form-group">
                             <textarea name="description" class="form-control" placeholder="Product description" required style="height: 150px;"></textarea>
@@ -126,7 +141,8 @@
                             <input type="file" name="cover" class="form-control" placeholder="Product cover">
                         </div>
                         <div class="form-group">
-                            <input type="number" name="price" class="form-control" placeholder="Product price" required>
+                            <input type="number" name="price" class="form-control" placeholder="Product price"
+                                required>
                         </div>
                         <input type="hidden" name="product_id" id="productId">
                     </form>
@@ -138,6 +154,7 @@
             </div>
         </div>
     </div>
+
     <script>
         $(document).ready(function() {
             $('.product-img').on('click', function() {
