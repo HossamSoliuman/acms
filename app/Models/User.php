@@ -54,6 +54,6 @@ class User extends Authenticatable
     }
     public function engRates()
     {
-        return $this->hasOne(engRates::class, 'eng_id');
+        return $this->hasOne(EngRates::class, 'eng_id');
     }
 }
