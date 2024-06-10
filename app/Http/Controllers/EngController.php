@@ -24,11 +24,30 @@ class EngController extends Controller
 
         return $this->apiResponse(EngAvailableTimesResource::make($meeting));
     }
+    
     public function getAvailableTimes()
     {
         $meetings = Meeting::where('eng_id', auth()->id())->where('start_at', '>', Carbon::now())->get();
-        return $this->apiResponse(EngAvailableTimesResource::collection($meetings));
+
+        $availableTimes = [];
+
+        foreach ($meetings as $meeting) {
+            $date = Carbon::parse($meeting->start_at)->format('Y-m-d');
+            $time = Carbon::parse($meeting->start_at)->format('H:i');
+
+            if (!isset($availableTimes[$date])) {
+                $availableTimes[$date] = [];
+            }
+
+            $availableTimes[$date][] = [
+                'id' => $meeting->id,
+                'time' => $time
+            ];
+        }
+
+        return $this->apiResponse($availableTimes);
     }
+
     public function getUpcomingMeetings()
     {
         $meetings = Meeting::with('user')
