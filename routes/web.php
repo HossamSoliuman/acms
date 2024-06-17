@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayPalController;
+use App\Http\Controllers\WithdrawalRequestController;
+use App\Models\WithdrawalRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,7 @@ Route::middleware('auth', 'admin')->group(function () {
     Route::get('/orders/{order}/export', [OrderController::class, 'export'])->name('orders.export');
     Route::resource('orders', OrderController::class);
 
+    Route::resource('withdrawal-requests', WithdrawalRequestController::class);
     Route::resource('plants', PlantController::class);
     Route::resource('products', ProductController::class);
     Route::get('/', [HomeController::class, 'index'])->name('index');

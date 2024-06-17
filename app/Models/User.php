@@ -56,4 +56,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(EngRates::class, 'eng_id');
     }
+
+	public function withdrawalRequests(){
+		return $this->hasMany(WithdrawalRequest::class);
+	}
 }

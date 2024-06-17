@@ -8,6 +8,7 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WithdrawalRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,9 @@ Route::middleware(['auth:sanctum', 'eng'])->prefix('eng')->group(function () {
     Route::get('meetings', [EngController::class, 'getUpcomingMeetings']);
     Route::get('available-times', [EngController::class, 'getAvailableTimes']);
     Route::post('meetings', [EngController::class, 'setAvailableTime']);
+    Route::post('withdrawal-requests', [WithdrawalRequestController::class, 'store']);
+    Route::get('withdrawal-requests', [WithdrawalRequestController::class, 'getWithdrawalRequests']);
+    Route::put('withdrawal-requests', [WithdrawalRequestController::class, 'cancelWithdrawalRequest']);
 });
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('auth')->group(function () {

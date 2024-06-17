@@ -39,6 +39,11 @@
                     <i class="bi bi-shop"></i> Orders
                 </a>
 
+                <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
+                    href="{{ route('withdrawal-requests.index') }}">
+                    <i class="bi bi-shop"></i> Withdrawal Requests
+                </a>
+
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button type="submit" class="nav-link btn btn-danger btn-block mb-2 nav-link-custom ">
