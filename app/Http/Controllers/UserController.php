@@ -46,6 +46,22 @@ class UserController extends Controller
             ->where('start_at', '>', Carbon::now())
             ->where('status', Meeting::STATUS_ENG_INIT)
             ->get();
-        return $this->apiResponse(EngAvailableTimesResource::collection($meetings));
+
+        $availableTimes = [];
+
+        foreach ($meetings as $meeting) {
+            $date = Carbon::parse($meeting->start_at)->format('Y-m-d');
+            $time = Carbon::parse($meeting->start_at)->format('H:i');
+
+            if (!isset($availableTimes[$date])) {
+                $availableTimes[$date] = [];
+            }
+
+            $availableTimes[$date][] = [
+                'id' => $meeting->id,
+                'time' => $time
+            ];
+        }
+        return $this->apiResponse($availableTimes);
     }
 }
