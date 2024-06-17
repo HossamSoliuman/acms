@@ -27,8 +27,17 @@ class WithdrawalRequestController extends Controller
     public function store(StoreWithdrawalRequestRequest $request)
     {
         $validData = $request->validated();
-        $validData['user_id'] = auth()->id();
+        $userId = auth()->id();
+        $validData['user_id'] = $userId;
         $balance = auth()->user()->balance;
+        
+        $pendingRequest = WithdrawalRequest::where('user_id', $userId)
+            ->where('status', WithdrawalRequest::STATUS_PENDING)
+            ->exists();
+
+        if ($pendingRequest) {
+            return $this->apiResponse(null, 'You already have a pending withdrawal request', 0, 400);
+        }
 
         if ($validData['amount'] > $balance) {
             return $this->apiResponse(null, 'Insufficient balance', 0, 400);
@@ -38,6 +47,7 @@ class WithdrawalRequestController extends Controller
 
         return $this->apiResponse($withdrawalRequest, 'Created Successfully');
     }
+
 
 
     public function show(WithdrawalRequest $withdrawalRequest)
