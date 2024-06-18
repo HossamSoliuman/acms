@@ -21,7 +21,8 @@
     <div class="position-sticky">
         <ul class="nav flex-column mt-3">
             <li class="nav-item">
-                <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left" href="">
+                <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
+                    href="{{ route('dashboard') }}">
                     <i class="bi bi-house-door"></i> Dashboard
                 </a>
                 <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
