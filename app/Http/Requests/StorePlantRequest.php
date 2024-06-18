@@ -25,7 +25,7 @@ class StorePlantRequest extends FormRequest
     {
         return [
             'name' => ['string', 'max:255', 'required'],
-            'description' => ['string', 'required'],
+            'description' => ['required'],
             'cover' => ['file', 'image', 'required'],
         ];
     }

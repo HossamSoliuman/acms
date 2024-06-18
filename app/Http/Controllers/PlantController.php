@@ -6,18 +6,19 @@ use App\Models\Plant;
 use App\Http\Requests\StorePlantRequest;
 use App\Http\Requests\UpdatePlantRequest;
 use App\Http\Resources\PlantResource;
+use Illuminate\Http\Request;
 
 class PlantController extends Controller
 {
     public function index()
     {
         $plants = PlantResource::collection(Plant::all());
-        return view('plants', compact('plants'));
+        return view('plants.index', compact('plants'));
     }
 
-    public function store(StorePlantRequest $request)
+    public function store(Request $request)
     {
-        $validData = $request->validated();
+        $validData = $request->all();
         $validData['cover'] = $this->uploadFile($validData['cover'], Plant::PathToStoredImages);
         $plant = Plant::create($validData);
         return redirect()->route('plants.index');
@@ -25,7 +26,7 @@ class PlantController extends Controller
 
     public function show(Plant $plant)
     {
-        return $this->successResponse(PlantResource::make($plant));
+        return view('plants.show', compact('plant'));
     }
 
     public function update(UpdatePlantRequest $request, Plant $plant)
@@ -36,7 +37,7 @@ class PlantController extends Controller
             $validData['cover'] = $this->uploadFile($request->file('cover'), Plant::PathToStoredImages);
         }
         $plant->update($validData);
-        return redirect()->route('plants.index');
+        return redirect()->back();
     }
 
     public function destroy(Plant $plant)
