@@ -51,4 +51,20 @@ class PlantController extends Controller
         $plants = PlantResource::collection(Plant::all());
         return $this->apiResponse($plants);
     }
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads'), $filename);
+
+            $url = asset('uploads/' . $filename);
+            return response()->json([
+                'uploaded' => true,
+                'url' => $url
+            ]);
+        }
+
+        return response()->json(['uploaded' => false, 'error' => ['message' => 'File not uploaded.']]);
+    }
 }

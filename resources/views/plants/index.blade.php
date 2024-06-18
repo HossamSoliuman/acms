@@ -122,13 +122,18 @@
     <!-- CKEditor Script -->
     <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
     <script>
-        // Initialize CKEditor for create form
         let createEditor;
         ClassicEditor
-            .create(document.querySelector('#description_create'))
+            .create(document.querySelector('#description_create'), {
+                mediaEmbed: {
+                    previewsInData: true
+                },
+                ckfinder: {
+                    uploadUrl: '{{ route('upload.image') . '?_token=' . csrf_token() }}'
+                }
+            })
             .then(editor => {
                 createEditor = editor;
-                // Sync CKEditor data before form submission
                 document.getElementById('createForm').addEventListener('submit', function() {
                     document.querySelector('#description_create').value = createEditor.getData();
                 });
@@ -137,20 +142,7 @@
                 console.error(error);
             });
 
-        // Initialize CKEditor for edit form
-        let editEditor;
-        ClassicEditor
-            .create(document.querySelector('#description_edit'))
-            .then(editor => {
-                editEditor = editor;
-                // Sync CKEditor data before form submission
-                document.getElementById('editForm').addEventListener('submit', function() {
-                    document.querySelector('#description_edit').value = editEditor.getData();
-                });
-            })
-            .catch(error => {
-                console.error(error);
-            });
+
 
         $(document).ready(function() {
             $('.btn-edit').on('click', function() {
@@ -167,7 +159,6 @@
             });
 
             $('#saveChangesBtn').on('click', function() {
-                // Sync the CKEditor data with the textarea before submitting
                 document.querySelector('#description_edit').value = editEditor.getData();
                 $('#editForm').submit();
             });

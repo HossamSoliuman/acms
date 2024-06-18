@@ -35,6 +35,7 @@ Route::middleware('auth', 'admin')->group(function () {
 
     Route::resource('withdrawal-requests', WithdrawalRequestController::class);
     Route::resource('plants', PlantController::class);
+    Route::post('/upload-image', [PlantController::class, 'uploadImage'])->name('upload.image');
     Route::resource('products', ProductController::class);
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/', DashboardController::class)->name('dashboard');

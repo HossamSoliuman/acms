@@ -13,7 +13,7 @@
                 <div class="card mt-4">
                     <div class="card-body">
                         <h3>Description</h3>
-
+                        <!-- Use  to render raw HTML content -->
                         <div>{!! $plant->description !!}</div>
                         <h3 class="mt-4">Cover</h3>
                         <img src="{{ asset($plant->cover) }}" alt="Plant Cover" style="max-width: 100%; height: auto;">
@@ -63,17 +63,18 @@
     <!-- CKEditor Script -->
     <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
     <script>
-        // Initialize CKEditor for edit form
         let editEditor;
         ClassicEditor
             .create(document.querySelector('#description_edit'), {
                 mediaEmbed: {
                     previewsInData: true
+                },
+                ckfinder: {
+                    uploadUrl: '{{ route('upload.image').'?_token='.csrf_token() }}'
                 }
             })
             .then(editor => {
                 editEditor = editor;
-                // Sync CKEditor data before form submission
                 document.getElementById('editForm').addEventListener('submit', function() {
                     document.querySelector('#description_edit').value = editEditor.getData();
                 });
@@ -94,11 +95,11 @@
             });
 
             $('#saveChangesBtn').on('click', function() {
-                // Sync the CKEditor data with the textarea before submitting
                 document.querySelector('#description_edit').value = editEditor.getData();
                 $('#editForm').submit();
             });
         });
+
         document.querySelectorAll('div[data-oembed-url]').forEach(element => {
             $(element).addClass("parent_container_iframe");
 
