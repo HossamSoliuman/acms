@@ -20,9 +20,9 @@ class UserController extends Controller
         $user = User::with('orders', 'orders.orderItems', 'orders.orderItems.product')->orderByDesc('id')->whereId($userId)->first();
         return $this->apiResponse(UserResource::make($user));
     }
-    public function getUpcomingMeetings($user_id)
+    public function getUpcomingMeetings()
     {
-        $meetings = Meeting::where('user_id', $user_id)->where('status', Meeting::STATUS_USER_BOOK)->get();
+        $meetings = Meeting::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
         return $this->apiResponse(MeetingResource::collection($meetings));
     }
     public function setMeeting(Meeting $meeting)

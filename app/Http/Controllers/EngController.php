@@ -24,10 +24,10 @@ class EngController extends Controller
 
         return $this->apiResponse(EngAvailableTimesResource::make($meeting));
     }
-    
+
     public function getAvailableTimes()
     {
-        $meetings = Meeting::where('eng_id', auth()->id())->where('start_at', '>', Carbon::now())->get();
+        $meetings = Meeting::where('eng_id', auth()->id())->where('start_at', '>', Carbon::now())->whereStatus(Meeting::STATUS_ENG_INIT)->get();
 
         $availableTimes = [];
 

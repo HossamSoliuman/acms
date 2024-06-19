@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->integer('rating')->nullable();
             $table->string('status')->default(Meeting::STATUS_ENG_INIT);
+            $table->string('session_id')->nullable();
             $table->timestamps();
         });
     }

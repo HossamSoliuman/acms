@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('eng_rates', function (Blueprint $table) {
             $table->id();
-            $table->float('meeting_rate')->nullable();
-            $table->float('overall_rating')->nullable();
+            $table->float('meeting_rate')->default(10);
+            $table->float('overall_rating')->default(10);
             $table->foreignId('eng_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

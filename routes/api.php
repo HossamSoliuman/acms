@@ -9,6 +9,7 @@ use App\Http\Controllers\PlantController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawalRequestController;
+use App\Serveces\MeetingServece;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,10 +56,11 @@ Route::get('plants', [PlantController::class, 'apiIndex']);
 Route::get('products', [ProductController::class, 'apiIndex']);
 
 Route::get('/checkout-cancel', function () {
-    return redirect(env('APP_URL'));
+    return 'canceled';
 })->name('checkout-cancel');
 
 Route::get('/checkout-success', [CheckoutController::class, 'checkoutSuccess'])->name('checkout-success');
 
 Route::get('success-transaction', [PayPalController::class, 'successTransaction'])->name('successTransaction');
 Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
+Route::get('mettings/checkout-success', [MeetingController::class, 'checkoutSuccess'])->name('meetings.checkout-success');

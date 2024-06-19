@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMeetingRequest;
 use App\Models\Meeting;
 use App\Http\Requests\UpdateMeetingRequest;
 use App\Http\Resources\MeetingResource;
-use Carbon\Carbon;
-use Hossam\Licht\Controllers\LichtBaseController;
-use Illuminate\Support\Facades\Request;
-use MacsiDigital\Zoom\Facades\Zoom;
+use App\Serveces\MeetingServece;
+use Illuminate\Http\Request;
 
 class MeetingController extends Controller
 {
+    public $meetingService;
+    public function __construct()
+    {
+        $this->meetingService = new MeetingServece;
+    }
 
     public function index()
     {
@@ -23,43 +25,12 @@ class MeetingController extends Controller
 
     public function store(Meeting $meeting)
     {
-        $meeting->load('eng');
-        $engName = $meeting->eng->name;
-        $userName = auth()->user()->name;
-
-        $topic = 'Eng ' . $engName . ' meeting with ' . $userName;
-
-        $zoomUser = Zoom::user()->first();
-        $meetingData = [
-            'duration' => 30,
-            'topic' => $topic,
-            'type' => 2,
-            'start_time' => $meeting->start_at,
-            'timezone' => 'Africa/Cairo'
-        ];
-
-        $zoomMeeting = Zoom::meeting()->make($meetingData);
-
-        $zoomMeeting->settings()->make([
-            'join_before_host' => true,
-            'host_video' => true,
-            'participant_video' => true,
-            'mute_upon_entry' => false,
-            'waiting_room' => true,
-            'approval_type' => config('zoom.approval_type'),
-            'audio' => config('zoom.audio'),
-            'auto_recording' => config('zoom.auto_recording')
-        ]);
-
-        $zoomMeeting = $zoomUser->meetings()->save($zoomMeeting);
-
-        $meeting->update([
-            'user_id' => auth()->id(),
-            'url' => $zoomMeeting->join_url,
-            'status' => Meeting::STATUS_USER_BOOK,
-        ]);
-
-        return $this->apiResponse(MeetingResource::make($meeting));
+        $meeting->load(['eng', 'eng.engRates']);
+        if ($meeting->status != Meeting::STATUS_ENG_INIT) {
+            return $this->apiResponse(null, 'Already token', 0);
+        }
+        $payment_url = $this->meetingService->pay($meeting);
+        return $this->apiResponse(['payment_url' => $payment_url]);
     }
 
 
@@ -78,5 +49,11 @@ class MeetingController extends Controller
     {
         $meeting->delete();
         return redirect()->route('meetings.index');
+    }
+    public function checkoutSuccess(Request $request)
+    {
+        $sessionId = $request->query('session_id');
+        $response = $this->meetingService->checkoutSuccess($sessionId);
+        return $response;
     }
 }

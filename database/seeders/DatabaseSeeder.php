@@ -29,9 +29,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'eng',
         ]);
         EngRates::create([
-            'meeting_rate',
-            'overall_rating',
-            'user_id',
+            'meeting_rate' => 10,
+            'overall_rating' => 10,
+            'eng_id' => $eng->id,
         ]);
     }
 }

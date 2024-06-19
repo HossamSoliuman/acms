@@ -22,6 +22,7 @@ class Meeting extends Model
         'url',
         'rating',
         'status',
+        'session_id'
     ];
 
 
