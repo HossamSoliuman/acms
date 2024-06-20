@@ -27,22 +27,22 @@
                 </a>
                 <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
                     href="{{ route('plants.index') }}">
-                    <i class="bi bi-plant"></i> Plants
+                    <i class="bi bi-flower1"></i></i> Plants
                 </a>
 
                 <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
                     href="{{ route('products.index') }}">
-                    <i class="bi bi-shop"></i> Products
+                    <i class="bi bi-boxes"></i> Products
                 </a>
 
                 <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
                     href="{{ route('orders.index') }}">
-                    <i class="bi bi-shop"></i> Orders
+                    <i class="bi bi-cart4"></i> Orders
                 </a>
 
                 <a class="nav-link btn btn-light btn-block mb-2 nav-link-custom text-left"
                     href="{{ route('withdrawal-requests.index') }}">
-                    <i class="bi bi-shop"></i> Withdrawal Requests
+                    <i class="bi bi-list-task"></i> Withdrawal Requests
                 </a>
 
                 <form action="{{ route('logout') }}" method="post">
