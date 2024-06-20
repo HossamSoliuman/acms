@@ -19,10 +19,10 @@ class OrderController extends LichtBaseController
     public function index()
     {
         $statuses = [
-            'unpaid',
             'paid',
             'in_delivery',
-            'received'
+            'received',
+            'unpaid'
         ];
 
         $paginatedOrders = [];
