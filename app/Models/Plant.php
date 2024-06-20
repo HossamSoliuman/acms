@@ -17,6 +17,4 @@ class Plant extends Model
 			'cover',
     ];
 
-
-
 }

@@ -4,7 +4,7 @@
         <div class="row justify-content-center mt-5">
             <div class="col-md-11">
                 <h1>Products</h1>
-                <button type="button" class="mb-3 btn btn-dark" data-toggle="modal" data-target="#staticBackdrop">
+                <button type="button" class="mb-3 btn btn-sm btn-dark" data-toggle="modal" data-target="#staticBackdrop">
                     Create a new Product
                 </button>
 
@@ -50,8 +50,8 @@
                                     </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-dark">Submit</button>
-                                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-sm btn-dark">Submit</button>
+                                <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
                                 </form>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                 <td>{{ $product->price }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <button type="button" class="btn btn-light btn-edit" data-toggle="modal"
+                                        <button type="button" class="btn btn-sm btn-light btn-edit" data-toggle="modal"
                                             data-target="#editModal" data-product-id="{{ $product->id }}">
                                             Edit
                                         </button>
@@ -91,7 +91,7 @@
                                             method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="ml-3 btn btn-dark">Delete</button>
+                                            <button type="submit" class="ml-3 btn btn-sm btn-dark">Delete</button>
                                         </form>
                                     </div>
                                 </td>
@@ -148,8 +148,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" id="saveChangesBtn">Save Changes</button>
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-dark" id="saveChangesBtn">Save Changes</button>
+                    <button type="button" class="btn btn-sm btn-light" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
