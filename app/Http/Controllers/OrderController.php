@@ -9,16 +9,40 @@ use App\Http\Resources\OrderResource;
 use Carbon\Carbon;
 use Hossam\Licht\Controllers\LichtBaseController;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
+use Illuminate\Pagination\Paginator;
 
 class OrderController extends LichtBaseController
 {
 
+
     public function index()
     {
-        $orders = Order::with(['user'])->orderBy('created_at', 'desc')->paginate(10);
-        $orders = OrderResource::collection($orders);
-        return view('orders.index', compact('orders'));
+        // Get all orders and group them by status
+        $orders = Order::orderBy('created_at', 'desc')->get();
+        $groupedOrders = $orders->groupBy('status');
+
+        // Paginate each group of orders separately
+        $paginatedOrders = [];
+        foreach ($groupedOrders as $status => $orders) {
+            Paginator::currentPageResolver(function () use ($status) {
+                return request()->input($status . '_page', 1);
+            });
+
+            $paginatedOrders[$status] = Order::where('status', $status)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10, ['*'], $status . '_page');
+        }
+
+        // Reset currentPageResolver after pagination
+        Paginator::currentPageResolver(function () {
+            return request()->input('page', 1);
+        });
+
+        return view('orders.index', compact('paginatedOrders'));
     }
+
+
 
     public function store(StoreOrderRequest $request)
     {
@@ -35,7 +59,7 @@ class OrderController extends LichtBaseController
     public function update(UpdateOrderRequest $request, Order $order)
     {
         $order->update($request->validated());
-        return redirect()->route('orders.index');
+        return redirect()->route('orders.show', $order);
     }
 
     public function destroy(Order $order)

@@ -13,6 +13,8 @@ class Order extends Model
     use HasFactory;
     const STATU_PAID = 'paid';
     const STATU_UNPAID = 'unpaid';
+    const STATUS_IN_DELIVERY = 'in_delivery';
+    const STATUS_RECEIVED = 'received';
     protected $fillable = [
         'shipping_address',
         'user_id',
@@ -36,7 +38,8 @@ class Order extends Model
     }
 
 
-	public function orderItems(){
-		return $this->hasMany(OrderItems::class);
-	}
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItems::class);
+    }
 }
