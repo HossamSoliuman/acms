@@ -22,18 +22,25 @@ class OrderSeeder extends Seeder
             Order::STATU_PAID,
         ];
 
-        // Generate and insert 50 orders
+        // Define the date range
+        $start = strtotime('2024-01-01');
+        $end = strtotime('2024-06-20');
+
         for ($i = 0; $i < 50; $i++) {
+            // Generate a random timestamp between the start and end dates
+            $randomTimestamp = rand($start, $end);
+
             Order::create([
                 'shipping_address' => [
                     'address' => 'Address ' . $i,
                     'city' => 'City ' . $i,
                     'country' => 'Country ' . $i,
                 ],
-                'user_id' => 1,  // Replace with your desired user_id
+                'user_id' => rand(5, 50),
                 'status' => $statuses[array_rand($statuses)],
-                'total_amount' => rand(50, 500), // Random total amount
-                'session_id' => 'session_' . $i, // Example session ID
+                'total_amount' => rand(50, 500),
+                'session_id' => 'session_' . $i,
+                'created_at' => date('Y-m-d H:i:s', $randomTimestamp),
             ]);
         }
     }

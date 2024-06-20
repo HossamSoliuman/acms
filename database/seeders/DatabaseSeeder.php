@@ -18,20 +18,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@acms.com',
-            'role' => 'admin',
-        ]);
-        $eng = User::factory()->create([
-            'name' => 'Eng',
-            'email' => 'eng@acms.com',
-            'role' => 'eng',
-        ]);
-        EngRates::create([
-            'meeting_rate' => 10,
-            'overall_rating' => 10,
-            'eng_id' => $eng->id,
+        $this->call([
+            UserSeeder::class,
+            OrderSeeder::class,
+            WithdrawalRequestSeeder::class,
         ]);
     }
 }

@@ -23,6 +23,9 @@ class WithdrawalRequestSeeder extends Seeder
             WithdrawalRequest::STATUS_FAILED,
             WithdrawalRequest::STATUS_SUCCEEDED,
         ];
+        $start = strtotime('2024-01-01');
+        $end = strtotime('2024-06-20');
+        $randomTimestamp = rand($start, $end);
 
         // Create 50 WithdrawalRequest records
         for ($i = 0; $i < 50; $i++) {
@@ -32,6 +35,8 @@ class WithdrawalRequestSeeder extends Seeder
                 'method' => 'bank_transfer',
                 'details' => 'Withdrawal details ' . $i,
                 'status' => $statuses[array_rand($statuses)],
+                'created_at' => date('Y-m-d H:i:s', $randomTimestamp),
+
             ]);
         }
     }
