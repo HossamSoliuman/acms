@@ -57,11 +57,11 @@
                                                 @csrf
                                                 <button type="submit" class="ml-3 btn btn-sm btn-light">Order Details</button>
                                             </form>
-                                            <form action="{{ route('orders.destroy', ['order' => $order->id]) }}" method="post">
+                                            {{-- <form action="{{ route('orders.destroy', ['order' => $order->id]) }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="ml-3 btn-sm btn btn-dark">Delete</button>
-                                            </form>
+                                            </form> --}}
                                         </div>
                                     </td>
                                 </tr>
