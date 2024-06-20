@@ -7,22 +7,40 @@ use App\Http\Requests\StoreWithdrawalRequestRequest;
 use App\Http\Requests\UpdateWithdrawalRequestRequest;
 use App\Http\Resources\WithdrawalRequestResource;
 use App\Models\User;
+use Illuminate\Pagination\Paginator;
 
 class WithdrawalRequestController extends Controller
 {
 
     public function index()
     {
-        $withdrawalRequests = WithdrawalRequest::all();
-        $withdrawalRequests = WithdrawalRequestResource::collection($withdrawalRequests);
-        $status = [
+        $statuses = [
+            WithdrawalRequest::STATUS_PENDING,
             WithdrawalRequest::STATUS_VERIFIED,
             WithdrawalRequest::STATUS_CANCELED,
             WithdrawalRequest::STATUS_FAILED,
             WithdrawalRequest::STATUS_SUCCEEDED
         ];
-        return view('withdrawalRequests', compact('withdrawalRequests', 'status'));
+
+        $paginatedRequests = [];
+        foreach ($statuses as $status) {
+            Paginator::currentPageResolver(function () use ($status) {
+                return request()->input($status . '_page', 1);
+            });
+
+            $paginatedRequests[$status] = WithdrawalRequest::where('status', $status)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10, ['*'], $status . '_page');
+        }
+
+        // Reset page resolver to default
+        Paginator::currentPageResolver(function () {
+            return request()->input('page', 1);
+        });
+
+        return view('withdrawalRequests', compact('paginatedRequests', 'statuses'));
     }
+
 
     public function store(StoreWithdrawalRequestRequest $request)
     {
@@ -30,7 +48,7 @@ class WithdrawalRequestController extends Controller
         $userId = auth()->id();
         $validData['user_id'] = $userId;
         $balance = auth()->user()->balance;
-        
+
         $pendingRequest = WithdrawalRequest::where('user_id', $userId)
             ->where('status', WithdrawalRequest::STATUS_PENDING)
             ->exists();

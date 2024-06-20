@@ -18,13 +18,15 @@ class OrderController extends LichtBaseController
 
     public function index()
     {
-        // Get all orders and group them by status
-        $orders = Order::orderBy('created_at', 'desc')->get();
-        $groupedOrders = $orders->groupBy('status');
+        $statuses = [
+            'unpaid',
+            'paid',
+            'in_delivery',
+            'received'
+        ];
 
-        // Paginate each group of orders separately
         $paginatedOrders = [];
-        foreach ($groupedOrders as $status => $orders) {
+        foreach ($statuses as $status) {
             Paginator::currentPageResolver(function () use ($status) {
                 return request()->input($status . '_page', 1);
             });
@@ -34,13 +36,14 @@ class OrderController extends LichtBaseController
                 ->paginate(10, ['*'], $status . '_page');
         }
 
-        // Reset currentPageResolver after pagination
+        // Reset page resolver to default
         Paginator::currentPageResolver(function () {
             return request()->input('page', 1);
         });
 
         return view('orders.index', compact('paginatedOrders'));
     }
+
 
 
 
