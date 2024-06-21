@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
         $engs->each(function ($eng) {
             EngRates::create([
                 'meeting_rate' => 10,
-                'overall_rating' => 10,
+                'overall_rating' => 0,
                 'eng_id' => $eng->id,
             ]);
         });
