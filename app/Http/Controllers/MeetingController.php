@@ -8,6 +8,7 @@ use App\Http\Resources\MeetingResource;
 use App\Models\EngRates;
 use App\Models\User;
 use App\Serveces\MeetingServece;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -71,7 +72,7 @@ class MeetingController extends Controller
         if ($meeting->status == Meeting::STATUS_REVIEW_SET) {
             return $this->apiResponse(null, 'Review have been set', 0, 400);
         }
-        if ($meeting->status != Meeting::STATUS_MEETING_FINISHED) {
+        if ($meeting->start_at > Carbon::now()) {
             return $this->apiResponse(null, 'Meeting not finished yet', 0, 400);
         }
 
