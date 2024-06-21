@@ -96,6 +96,10 @@ class AuthenticationController extends Controller
     }
     public function user(Request $request)
     {
-        return $this->apiResponse(UserResource::make($request->user()));
+        $user = User::find(auth()->id());
+        if ($user->role == 'eng') {
+            $user->load('engRates');
+        }
+        return $this->apiResponse(UserResource::make($user));
     }
 }
