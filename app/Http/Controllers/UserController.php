@@ -14,17 +14,22 @@ use Carbon\Carbon;
 class UserController extends Controller
 {
     use ZoomMeetingTrait;
+
     public function orders()
     {
         $userId = auth()->user()->id;
         $user = User::with('orders', 'orders.orderItems', 'orders.orderItems.product')->orderByDesc('id')->whereId($userId)->first();
         return $this->apiResponse(UserResource::make($user));
     }
+
+
     public function getUpcomingMeetings()
     {
-        $meetings = Meeting::where('user_id', auth()->id())->orderBy('id', 'desc')->get();
+        $meetings = Meeting::with(['eng','eng.engRates'])->where('user_id', auth()->id())->orderBy('id', 'desc')->get();
         return $this->apiResponse(MeetingResource::collection($meetings));
     }
+
+
     public function setMeeting(Meeting $meeting)
     {
         $meeting->update([
@@ -35,11 +40,15 @@ class UserController extends Controller
         $response = $this->create($data);
         return $this->apiResponse($response);
     }
+
+
     public function getEngs()
     {
         $engs = User::with('engRates')->where('role', 'eng')->get();
         return $this->apiResponse(EngResource::collection($engs));
     }
+
+
     public function engAvailableTimes($user)
     {
         $meetings = Meeting::where('eng_id', $user)

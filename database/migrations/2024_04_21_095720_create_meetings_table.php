@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignId('eng_id')->constrained('users')->cascadeOnDelete();
             $table->string('url')->nullable();
-            $table->integer('rating')->nullable();
+            $table->integer('rating')->default(0);
             $table->string('status')->default(Meeting::STATUS_ENG_INIT);
             $table->string('session_id')->nullable();
             $table->timestamps();
