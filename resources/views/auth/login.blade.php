@@ -39,8 +39,8 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-3 text-center">
-                                        <button type="submit" class="btn btn-dark">{{ __('Login') }}</button>
+                                    <div class="mb-3 text-center w-100">
+                                        <button type="submit" class="w-100 btn btn-dark rounded">{{ __('Login') }}</button>
                                     </div>
 
                                 </div>
