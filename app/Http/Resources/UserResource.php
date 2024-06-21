@@ -20,7 +20,9 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role,
             'balance' => $this->balance,
+            'rates' => EngRatesResource::make($this->whenLoaded('engRates')),
             'orders' => OrderResource::collection($this->whenLoaded('orders')),
+
         ];
     }
 }

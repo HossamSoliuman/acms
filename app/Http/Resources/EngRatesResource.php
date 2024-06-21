@@ -16,7 +16,7 @@ class EngRatesResource extends JsonResource
     {
         return [
             'meeting_rate' => $this->meeting_rate,
-            'over_rating' => $this->over_rating,
+            'overall_rating' => $this->overall_rating,
         ];
     }
 }

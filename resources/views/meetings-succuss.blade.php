@@ -30,9 +30,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card-footer text-center">
-                        <a href="{{ route('home') }}" class="btn btn-primary">Back to Home</a>
-                    </div>
+                   
                 </div>
             </div>
         </div>

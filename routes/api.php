@@ -48,6 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('engs', [UserController::class, 'getEngs']);
         Route::get('engs/{user}/available-times', [UserController::class, 'engAvailableTimes']);
         Route::get('create-meeting/{meeting}', [MeetingController::class, 'store']);
+        Route::post('meetings/add-review', [MeetingController::class, 'addReview']);
     });
     Route::post('stripe-checkout', [CheckoutController::class, 'checkout']);
     Route::get('paypal-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');

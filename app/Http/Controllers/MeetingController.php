@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Meeting;
 use App\Http\Requests\UpdateMeetingRequest;
 use App\Http\Resources\MeetingResource;
+use App\Models\EngRates;
+use App\Models\User;
 use App\Serveces\MeetingServece;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MeetingController extends Controller
 {
@@ -55,5 +58,47 @@ class MeetingController extends Controller
         $sessionId = $request->query('session_id');
         $response = $this->meetingService->checkoutSuccess($sessionId);
         return $response;
+    }
+    public function addReview(Request $request,)
+    {
+        $request->validate([
+            'rate' => 'required|integer|min:1|max:5',
+        ]);
+        $meeting = Meeting::with(['user', 'eng.engRates'])->find($request->meeting_id);
+        if (auth()->id() != $meeting->user_id) {
+            return $this->apiResponse(null, 'Unauthorized action', 0, 401);
+        }
+        if ($meeting->status == Meeting::STATUS_REVIEW_SET) {
+            return $this->apiResponse(null, 'Review have been set', 0, 400);
+        }
+        if ($meeting->status != Meeting::STATUS_MEETING_FINISHED) {
+            return $this->apiResponse(null, 'Meeting not finished yet', 0, 400);
+        }
+
+
+        DB::transaction(function () use ($request, $meeting) {
+            $meeting->update([
+                'rating' => $request->rate,
+                'status' => Meeting::STATUS_REVIEW_SET,
+            ]);
+
+            $eng_id = $meeting->eng_id;
+
+            $meetings = Meeting::where('status', Meeting::STATUS_REVIEW_SET)
+                ->where('eng_id', $eng_id)
+                ->get();
+
+            $totalRatings = $meetings->sum('rating');
+            $numberOfRatings = $meetings->count();
+
+            $overAllRating = $numberOfRatings ? $totalRatings / $numberOfRatings : 0;
+
+            $engRates = EngRates::where('eng_id', $meeting->eng_id)->firstOrFail();
+            $engRates->update([
+                'overall_rating' => $overAllRating,
+            ]);
+        });
+
+        return $this->apiResponse(MeetingResource::make($meeting));
     }
 }
