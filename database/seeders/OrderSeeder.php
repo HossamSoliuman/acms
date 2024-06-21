@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Order;
+use App\Models\OrderItems;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class OrderSeeder extends Seeder
@@ -30,7 +32,7 @@ class OrderSeeder extends Seeder
             // Generate a random timestamp between the start and end dates
             $randomTimestamp = rand($start, $end);
 
-            Order::create([
+            $order = Order::create([
                 'shipping_address' => [
                     'address' => 'Address ' . $i,
                     'city' => 'City ' . $i,
@@ -42,6 +44,15 @@ class OrderSeeder extends Seeder
                 'session_id' => 'session_' . $i,
                 'created_at' => date('Y-m-d H:i:s', $randomTimestamp),
             ]);
+
+            // Create random order items for each order
+            for ($j = 0; $j < rand(1, 5); $j++) {
+                OrderItems::create([
+                    'order_id' => $order->id,
+                    'product_id' => Product::inRandomOrder()->first()->id,
+                    'quantity' => rand(1, 2),
+                ]);
+            }
         }
     }
 }

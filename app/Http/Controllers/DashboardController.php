@@ -20,14 +20,14 @@ class DashboardController extends Controller
         $cards['plants'] = Plant::count();
         $cards['products'] = Product::count();
         $cards['orders'] = Order::count();
-        
+
         // Additional data for charts and tables
-        $recentOrders = Order::with('user')->latest()->take(5)->get();
+        $recentOrders = Order::with('user')->orderBy('updated_at', 'desc')->take(5)->get();
         $productDistribution = Product::select('name', 'price')->get();
         $monthlySales = Order::selectRaw('MONTH(created_at) as month, SUM(total_amount) as total')
-                            ->groupBy('month')
-                            ->get();
-        
+            ->groupBy('month')
+            ->get();
+
         return view('dashboard', compact('cards', 'recentOrders', 'productDistribution', 'monthlySales'));
     }
 }

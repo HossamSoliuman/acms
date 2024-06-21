@@ -17,9 +17,9 @@ class WithdrawalRequestController extends Controller
         $statuses = [
             WithdrawalRequest::STATUS_PENDING,
             WithdrawalRequest::STATUS_VERIFIED,
-            WithdrawalRequest::STATUS_CANCELED,
+            WithdrawalRequest::STATUS_SUCCEEDED,
             WithdrawalRequest::STATUS_FAILED,
-            WithdrawalRequest::STATUS_SUCCEEDED
+            WithdrawalRequest::STATUS_CANCELED,
         ];
 
         $paginatedRequests = [];
