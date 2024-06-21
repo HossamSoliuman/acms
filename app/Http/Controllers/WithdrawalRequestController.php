@@ -38,7 +38,7 @@ class WithdrawalRequestController extends Controller
             return request()->input('page', 1);
         });
 
-        return view('withdrawalRequests', compact('paginatedRequests', 'statuses'));
+        return view('withdrawalrequests', compact('paginatedRequests', 'statuses'));
     }
 
 
