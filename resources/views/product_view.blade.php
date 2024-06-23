@@ -5,12 +5,12 @@
             <div class="col-md-11">
                 <h1>Product Details</h1>
                 <button type="button" class="btn btn-sm btn-light btn-edit" data-toggle="modal" data-target="#editModal"
-                    data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}" 
+                    data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}"
                     data-product-description="{{ $product->description }}" data-product-price="{{ $product->price }}">
                     Edit
                 </button>
                 <div class="card mb-3">
-                    <img src="{{ $product->cover }}" class="card-img-top" alt="{{ $product->name }}">
+                    <img src="{{ asset($product->cover) }}" class="card-img-top" alt="{{ $product->name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text">{{ $product->description }}</p>
