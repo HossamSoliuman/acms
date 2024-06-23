@@ -66,12 +66,12 @@ class MeetingController extends Controller
             'rate' => 'required|integer|min:1|max:5',
         ]);
 
-        $meeting = Meeting::with(['user', 'eng.engRates'])->find($request->meeting_id);
+        $meeting = Meeting::with(['user', 'eng.engRates'])->findOrFail($request->meeting_id);
 
         if (auth()->id() != $meeting->user_id) {
             return $this->apiResponse(null, 'Unauthorized action', 0, 401);
         }
-        
+
         if ($meeting->status == Meeting::STATUS_REVIEW_SET) {
             return $this->apiResponse(null, 'Review have been set', 0, 400);
         }
