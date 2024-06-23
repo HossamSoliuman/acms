@@ -26,7 +26,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return $this->successResponse(ProductResource::make($product));
+        return view('product_view', compact('product'));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
@@ -37,7 +37,7 @@ class ProductController extends Controller
             $validData['cover'] = $this->uploadFile($request->file('cover'), Product::PathToStoredImages);
         }
         $product->update($validData);
-        return redirect()->route('products.index');
+        return redirect()->route('products.show', ['product' => $product]);
     }
 
     public function destroy(Product $product)
