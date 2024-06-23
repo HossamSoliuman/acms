@@ -19,10 +19,15 @@ class UserSeeder extends Seeder
             'email' => 'user@acms.com',
             'role' => 'user',
         ]);
-        User::factory()->create([
+        $eng = User::factory()->create([
             'name' => 'Eng',
             'email' => 'eng@acms.com',
             'role' => 'eng',
+        ]);
+        EngRates::create([
+            'meeting_rate' => 10,
+            'overall_rating' => 0,
+            'eng_id' => $eng->id,
         ]);
         User::factory()->create([
             'name' => 'Admin',

@@ -25,7 +25,18 @@ class UserController extends Controller
 
     public function getUpcomingMeetings()
     {
-        $meetings = Meeting::with(['eng','eng.engRates'])->where('user_id', auth()->id())->orderBy('id', 'desc')->get();
+        $meetings = Meeting::with(['eng', 'eng.engRates'])
+            ->where('user_id', auth()->id())
+            ->whereNot('status', Meeting::STATUS_ENG_INIT)
+            ->orderBy('id', 'desc')
+            ->get();
+        foreach ($meetings as $meeting) {
+            if ($meeting->status == Meeting::STATUS_USER_BOOK && $meeting->start_at < Carbon::now()) {
+                $meeting->update([
+                    'status' => Meeting::STATUS_MEETING_FINISHED
+                ]);
+            }
+        }
         return $this->apiResponse(MeetingResource::collection($meetings));
     }
 

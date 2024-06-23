@@ -52,9 +52,16 @@ class EngController extends Controller
     {
         $meetings = Meeting::with('user')
             ->where('eng_id', auth()->id())
-            ->where('status', Meeting::STATUS_USER_BOOK)
             ->where('start_at', '>', Carbon::now())
+            ->orderBy('id', 'desc')
             ->get();
+        foreach ($meetings as $meeting) {
+            if ($meeting->status == Meeting::STATUS_USER_BOOK && $meeting->start_at < Carbon::now()) {
+                $meeting->update([
+                    'status' => Meeting::STATUS_MEETING_FINISHED
+                ]);
+            }
+        }
         return $this->apiResponse(MeetingResource::collection($meetings));
     }
 }
