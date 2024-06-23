@@ -10,7 +10,8 @@
                     Edit
                 </button>
                 <div class="card mb-3">
-                    <img src="{{ asset($product->cover) }}" class="card-img-top" alt="{{ $product->name }}">
+                    <img style="max-width: 50%" src="{{ asset($product->cover) }}" class="card-img-top"
+                        alt="{{ $product->name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $product->name }}</h5>
                         <p class="card-text">{{ $product->description }}</p>
