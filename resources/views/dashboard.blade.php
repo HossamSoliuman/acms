@@ -4,6 +4,7 @@
     <div class="container-fluid">
         <!-- Dashboard Cards -->
         <div class="row">
+            <!-- Cards for Users, Plants, Products, and Orders -->
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
@@ -192,7 +193,7 @@
             data: {
                 labels: @json($productDistribution->pluck('name')),
                 datasets: [{
-                    data: @json($productDistribution->pluck('price')),
+                    data: @json($productDistribution->pluck('total_sales')),
                     backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'],
                 }]
             }
