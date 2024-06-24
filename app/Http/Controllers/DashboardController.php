@@ -26,7 +26,7 @@ class DashboardController extends Controller
         $recentOrders = Order::with('user')->orderBy('updated_at', 'desc')->take(5)->get();
 
         // Fetch product sales distribution
-        $productDistribution = Product::select('products.name', DB::raw('SUM(order_items.quantity * products.price) as total_sales'))
+        $productDistribution = Product::whereNot('status', 'unpaid')->select('products.name', DB::raw('SUM(order_items.quantity * products.price) as total_sales'))
             ->join('order_items', 'products.id', '=', 'order_items.product_id')
             ->groupBy('products.name')
             ->get();
