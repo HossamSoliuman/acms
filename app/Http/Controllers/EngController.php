@@ -52,7 +52,7 @@ class EngController extends Controller
     {
         $meetings = Meeting::with('user')
             ->where('eng_id', auth()->id())
-            ->where('start_at', '>', Carbon::now())
+            ->where('status', Meeting::STATUS_USER_BOOK)
             ->orderBy('id', 'desc')
             ->get();
         foreach ($meetings as $meeting) {
