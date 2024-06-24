@@ -13,6 +13,7 @@ use MacsiDigital\Zoom\Facades\Zoom;
 
 class MeetingServece
 {
+
     use ApiResponse;
     public function __construct()
     {
@@ -88,7 +89,7 @@ class MeetingServece
             'host_video' => true,
             'participant_video' => true,
             'mute_upon_entry' => false,
-            'waiting_room' => true,
+            'waiting_room' => false,
             'approval_type' => config('zoom.approval_type'),
             'audio' => config('zoom.audio'),
             'auto_recording' => config('zoom.auto_recording')
@@ -103,6 +104,7 @@ class MeetingServece
         $this->addEngBudget($meeting->eng);
         return view('meetings-succuss', compact('meeting'));
     }
+
     public function addEngBudget($eng)
     {
         $eng = User::with('engRates')->where('id', $eng->id)->first();
